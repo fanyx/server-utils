@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#####
+#
+# Arguments:
+# 
+# $1 = container-name
+#   -> e.g. nextcloud_nextcloud_db_1
+#
+# $2 = environment-file
+#   -> e.g. "/srv/docker/nextcloud/.env-db
+#
+#####
+#
+# Variables:
+
+container="${1}"
+user=$(grep MYSQL_USER "${2}" | cut -d'=' -f2)
+password=$(grep MYSQL_PASSWORD "${2}" | cut -d'=' -f2)
+database=$(grep MYSQL_DATABASE "${2}" | cut -d'=' -f2)
+backupdir="/data/backup/db"
+
+#
+#####
+#
+# Commands:
+
+[[ ! -d "${backupdir}" ]] && mkdir -p "${backupdir}" # Create backup dir if not exists
+
+docker exec $container mysqldump --user=$user --password=$password $database > "${backupdir}/${container}"
