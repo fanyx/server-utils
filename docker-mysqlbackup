@@ -14,11 +14,14 @@
 #
 # Variables:
 
+[[ ! $(id -u) == 0 ]] && echo "This script needs to be started as root." && exit 1
+
+
 container="${1}"
 user=$(grep MYSQL_USER "${2}" | cut -d'=' -f2)
 password=$(grep MYSQL_PASSWORD "${2}" | cut -d'=' -f2)
 database=$(grep MYSQL_DATABASE "${2}" | cut -d'=' -f2)
-backupdir="/data/backup/db"
+backupdir="/tmp/backup/db"
 
 #
 #####
