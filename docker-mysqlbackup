@@ -30,4 +30,4 @@ backupdir="/tmp/backup/db"
 
 [[ ! -d "${backupdir}" ]] && mkdir -p "${backupdir}" # Create backup dir if not exists
 
-docker exec $container mysqldump --user=$user --password=$password $database > "${backupdir}/${container}.sql"
+docker exec -it $container mysqldump --user=$user --password=$password $database > "${backupdir}/${container}.sql"
